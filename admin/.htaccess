@@ -1,0 +1,8 @@
+AddDefaultCharset UTF-8
+
+Options -Indexes
+
+AuthType Basic
+AuthName "Private zone"
+AuthUserFile  C:/OpenServer/domains/magazin/admin/.htpasswd
+require valid-user
