@@ -229,6 +229,9 @@ input[name = "checkbox"]:checked ~ .navigation ul {
     font-weight: bold;
     transition-timing-function: linear;
     transition-duration: 550ms;
+    text-decoration: none !important;
+    display: block;
+    margin: 15px 5px;
 }
 .home-block-1-item:hover {
     color: #f1bda5;
@@ -509,6 +512,15 @@ ol li {
 .prod-price {
     margin: 20px 0;
     font-size: 30px;
+}
+.full-catalog {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.full-catalog a {
+    display: inline-block;
+    margin: 0 15px;
 }
 
 /* Настройка страницы контакты */

@@ -50,6 +50,15 @@ abstract class Catalog extends Main_Models
             $data_store_html = '';
 
             foreach($data_store as $product) {
+                if (!empty($_GET['n']) && $_GET['n'] == 'clothing' && $product['id'] != 2 && $product['id'] != 3 && $product['id'] != 4 && $product['id'] != 15 && $product['id'] != 16 && $product['id'] != 17 && $product['id'] != 18 && $product['id'] != 19 && $product['id'] != 20) { 
+                    continue;
+                } elseif (!empty($_GET['n']) && $_GET['n'] == 'bags' && $product['id'] != 1) {
+                    continue;
+                } elseif (!empty($_GET['n']) && $_GET['n'] == 'rings' && $product['id'] != 5 && $product['id'] != 6 && $product['id'] != 7 && $product['id'] != 8) {
+                    continue;
+                } elseif (!empty($_GET['n']) && ($_GET['n'] == 'clock' || $_GET['n'] == 'shoes' || $_GET['n'] == 'perfume')) {
+                    $data_store_html = "Приход товара август-сентябрь";
+                } else {
                 $data_store_html .= '
                 <div class="catalog__product">
                     <h3><a href="/catalog/' . $product['id'] . '/">' . $product['title'] . '</a></h3>
@@ -61,8 +70,8 @@ abstract class Catalog extends Main_Models
                        
                     </form>
                 </div>
-                ';
-            }
+                '; 
+            }}
 
             if (!empty($data_store_html)) {
                 $data_store_html = '<div class="catalog__list">' . $data_store_html . '</div>';
