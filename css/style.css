@@ -302,6 +302,10 @@ input[name = "checkbox"]:checked ~ .navigation ul {
 .b-usl:hover {
     content: "Смотреть услуги";
 }
+#hom-img {
+    width: 600px;
+    height: 800px;
+}
 
 /* Слайдер N1 */
 .adaptivSlayder {
@@ -501,7 +505,7 @@ ol li {
 }
 .prod-item1 img {
     width: 100%;
-    max-width: 300px;
+    max-width: 250px;
     max-height: 300px;
     margin: 0 30px 30px 0;
 }
@@ -521,6 +525,20 @@ ol li {
 .full-catalog a {
     display: inline-block;
     margin: 0 15px;
+}
+.quantity {
+    position: fixed;
+    top: 30%;
+    right: 1%;
+    text-align: center;
+    color: #F1BDA4;
+}
+#quantity {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border-bottom: 2px solid #f1bda5;
 }
 
 /* Настройка страницы контакты */
@@ -687,3 +705,7 @@ ol li {
     font-size: 20px;
     margin: 20px 0;
 }
+
+
+
+

@@ -83,7 +83,7 @@
     .home-h2 {
         font-size: 65px !important;
     }
-    .tt p {
+    .tt a {
         font-size: 55px !important;
     }
     .home-block-1-it {
@@ -136,7 +136,7 @@
     .home-h2 {
         font-size: 55px !important;
     }
-    .tt p {
+    .tt a {
         font-size: 45px !important;
     }
     .home-block-1 h2::before {
@@ -181,8 +181,15 @@
     .home-t {
         font-size: 25px;
     }
-    .tt p {
+    .tt a {
         font-size: 40px !important;
+    }
+    .quantity {
+        background-color: #fff;
+        color: black;
+    }
+    #quantity {
+        border-bottom: unset;
     }
 }
 @media (max-width: 400px) {

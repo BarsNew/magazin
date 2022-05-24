@@ -14,6 +14,11 @@ $(function() {
 
             success: function (res) {
                 alert(res.answer);
+
+                
+                obj_div=document.getElementById("quantity");
+                obj_div.innerHTML=res.count;
+                
             },
             error: function () {
                 alert("Произошла ошибка");

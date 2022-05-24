@@ -51,21 +51,52 @@ if (!empty($_POST['button']) || !empty($_POST['button-checkout'])) {
         (`id`, `page`, `name`, `gender`, `phone`, `email`, `query`, `city`, `date`)
         VALUES (NULL, '$page', '$name', '$gender', '$phone', '$email', '$query', '$city', UNIX_TIMESTAMP())";
 
+        $zakaz = time();
 
         $sqlform = mysqli_query($link, $sqlquery);  
 
-        if (!empty($sqlform) && !empty($_POST['button'])) {
-            echo "<p>Форма отправлена</p><p>С вами свяжутся через некоторое время наши менеджеры</p><p>Переход на страницу контакты будет через 10 секунд</p>";
-            header( 'Refresh: 10; URL=/contacts' );
+        // Отправка на почту админа
+        
+        if (!empty($email)) $email2 = $email;
+        else $email2 = false;
+
+        $to = "Bars11021988@mail.ru";
+        $subject = 'Заказ ' . $zakaz . ' от ' . date('Y-m-d H:i:s');
+        $message = 'Клиент ' . $name . ' с страницы ' . $page . ', телефон ' . $phone . ', почта ' . ($email2)??'не указана' .  '. Запрос: ' . $query;
+
+        $headers  = "Content-type: text/html; charset=windows-1251 \r\n"; 
+        if (!empty($email2)) {
+        $headers .= "From: $email2 <$email2>\r\n"; 
+        $headers .= "Reply-To: $email2\r\n"; 
+        }
+        $mailadmin = mail($to, $subject, $message, $headers); 
+        
+        //Отправка клиенту
+
+        if (!empty($mailadmin) && !empty($email2)) {
+            $t = $email2;
+            $subjec = 'Заказ в магазине BRAND';
+            $messag = "Номер заказа $zakaz" . ' Ваша заявка принята' ;
+
+            $header  = "Content-type: text/html; charset=windows-1251 \r\n"; 
+            $header .= "From: $to <$to>\r\n"; 
+            $header .= "Reply-To: $to\r\n"; 
+
+            mail($t, $subjec, $messag, $header); 
+        }
+
+        if (!empty($sqlform) && !empty($_POST['button']) && !empty($mailadmin)) {
+            echo "<p>Форма отправлена</p><p>С вами свяжутся через некоторое время наши менеджеры</p><p>Переход на страницу контакты будет через 5 секунд</p>";
+            header( 'Refresh: 5; URL=/contacts' );
             exit;
-        } else if (!empty($sqlform) && !empty($_POST['button-checkout'])) {
-            echo "<p>Форма отправлена</p><p>С вами свяжутся через некоторое время наши менеджеры</p><p>Переход на страницу каталог будет через 10 секунд</p>";
+        } else if (!empty($sqlform) && !empty($_POST['button-checkout']) && !empty($mailadmin)) {
+            echo "<p>Форма отправлена</p><p>С вами свяжутся через некоторое время наши менеджеры</p><p>Переход на страницу каталог будет через 5 секунд</p>";
             $_SESSION['cart'] = [];
-            header( 'Refresh: 10; URL=/catalog' );
+            header( 'Refresh: 5; URL=/catalog' );
             exit;
         } else {
-            echo '<p>Произошла ошибка, просим связаться с менеджерами по телефонам"</p><p>Переход на страницу контакты будет через 10 секунд</p>';
-            header( 'Refresh: 10; URL=/contacts' );
+            echo '<p>Произошла ошибка, просим связаться с менеджерами по телефонам"</p><p>Переход на страницу контакты будет через 5 секунд</p>';
+            header( 'Refresh: 5; URL=/contacts' );
         }
 }
 ?>

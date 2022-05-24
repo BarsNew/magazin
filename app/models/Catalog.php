@@ -8,18 +8,34 @@ abstract class Catalog extends Main_Models
 {
     static function getStore($product_id = '') {
 
+        $host = 'magazin';  // Хост, у нас все локально
+        $user = 'root';    // Имя созданного вами пользователя
+        $pass = ''; // Установленный вами пароль пользователю
+        $db_name = 'mysite';   // Имя базы данных
+        $link = mysqli_connect($host, $user, $pass, $db_name); // Соединяемся с базой
+        
+        // Ругаемся, если соединение установить не удалось
+        if (!$link) {
+        echo 'Не могу соединиться с БД. Код ошибки: ' . mysqli_connect_errno() . ', ошибка: ' . mysqli_connect_error();
+        exit;
+        }
 
+        $data = mysqli_query($link, "SELECT * FROM base");
+        $data = mysqli_fetch_array($data);
+        $data = unserialize($data['base']);
 
-        $ch = curl_init();
-
-        curl_setopt($ch, 
-            CURLOPT_URL, 
-            "https://fakestoreapi.com/products/" . (!empty($product_id) ? $product_id : '')
-        );
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $data = json_decode(curl_exec($ch), true);
+        if (!empty($product_id)) {
+            $d = [];
+            foreach($data as $prod) {
+                if ($prod['id'] != $product_id ) continue;
+                $d['id'] = $prod['id'];
+                $d['title'] = $prod['title'];
+                $d['price'] = $prod['price'];
+                $d['description'] = $prod['description'];
+                $d['image'] = $prod['image'];
+            }
+            $data = $d;     
+        }
 
         if (!empty($data)) return $data;
         return [];

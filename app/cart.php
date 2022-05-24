@@ -17,10 +17,13 @@ if (isset($_GET['cart']) ) {
                 array_push($cart, $id);
                 $_SESSION['cart'] = $cart;     
             }                      
-            
+    
+            $count = count($_SESSION['cart']);
+            $_SESSION['q'] = $count;
+
         if ($_SERVER['REQUEST_URI'] != '/checkout?cart=add&id=' . $_GET['id'] ) { 
 
-            echo  json_encode(['answer' => "Товар артикул № " . $id . " добавлен в корзину"]);
+            echo  json_encode(['answer' => "Товар артикул № " . $id . " добавлен в корзину", 'count' => $count]);
 
         }
     }  

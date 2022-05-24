@@ -36,19 +36,4 @@ abstract class DB
 
         return $result->fetchAll();
     }
-
-    static function insert()
-    {
-        // code
-    }
-
-    static function update()
-    {
-        // code
-    }
-
-    static function delete()
-    {
-        // code
-    }
 }

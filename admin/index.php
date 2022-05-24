@@ -96,10 +96,12 @@ define ('ROOT', $config["rootdirectory"].'/' );
 
 <body>
 
+<button><a class="ab-btn asphalt mar" href='/admin/base_list.php'>База товаров</a></button>
 <button><a class="ab-btn asphalt mar" href='/admin/categories_list.php'>Редактировать категории</a></button>
 <button><a class="ab-btn asphalt mar" href='/admin/pages_list.php'>Редактировать страницы</a></button>
 <button><a class="ab-btn asphalt mar" href='/admin/posts_list.php'>Редактировать связи постов</a></button>
 <button><a class="ab-btn asphalt mar" href='/admin/clients_list.php'>Обращения и заказы</a></button>
+
 
 <div id="page-preloader"><span id="spinner">Loading ...</span></div>
 <div class="ab-container ab-filemanager" id="ab-main">
