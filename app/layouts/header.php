@@ -59,3 +59,5 @@
   <div class="particle">N</div>
   <div class="particle">D</div>
 </div>
+
+<?php echo counter_products() ?>

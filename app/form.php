@@ -34,12 +34,12 @@ if (!empty($_POST['button']) || !empty($_POST['button-checkout'])) {
                 $numb = array_count_values($_SESSION['cart']);
                 $numb2 = '';
                 foreach($numb as $y => $i) {
-                    $numb2 .= 'Id товара: ' . $y . ', количество: ' . $i . '. '; 
+                    $numb2 .= ' --- ID товара: ' . $y . ', количество: ' . $i; 
                 }
 
                 $query = $numb2 .
-                'Общее количество: ' . $_SESSION['q'] .
-                '. Вся сумма ' . $_SESSION['summa'] 
+                '. ОБЩЕЕ КОЛИЧЕСТВО: ' . $_SESSION['q'] .
+                '. ВСЯ СУММА: ' . $_SESSION['summa'] . '.' 
                 ;
             }
         } else if (!empty($_POST['button'])) {
@@ -59,12 +59,13 @@ if (!empty($_POST['button']) || !empty($_POST['button-checkout'])) {
         
         if (!empty($email)) $email2 = $email;
         else $email2 = false;
+        $email3 = (!empty($email)) ? $email : 'не указана';
 
         $to = "Bars11021988@mail.ru";
         $subject = 'Заказ ' . $zakaz . ' от ' . date('Y-m-d H:i:s');
-        $message = 'Клиент ' . $name . ' с страницы ' . $page . ', телефон ' . $phone . ', почта ' . ($email2)??'не указана' .  '. Запрос: ' . $query;
+        $message = 'Клиент ' . $name . ' с страницы ' . $page . ', телефон ' . $phone . ', почта ' . $email3 . '. Сообщение/заказ: ' . $query;
 
-        $headers  = "Content-type: text/html; charset=windows-1251 \r\n"; 
+        $headers  = "Content-type: text/html; charset=utf-8 \r\n"; 
         if (!empty($email2)) {
         $headers .= "From: $email2 <$email2>\r\n"; 
         $headers .= "Reply-To: $email2\r\n"; 
@@ -76,9 +77,9 @@ if (!empty($_POST['button']) || !empty($_POST['button-checkout'])) {
         if (!empty($mailadmin) && !empty($email2)) {
             $t = $email2;
             $subjec = 'Заказ в магазине BRAND';
-            $messag = "Номер заказа $zakaz" . ' Ваша заявка принята' ;
+            $messag = "Номер заказа $zakaz от " . date('Y-m-d H:i:s') . '.' . ' Ваша заявка принята. Наш менеджер свяжется с вами в ближайшее время.' ;
 
-            $header  = "Content-type: text/html; charset=windows-1251 \r\n"; 
+            $header  = "Content-type: text/html; charset=utf-8 \r\n"; 
             $header .= "From: $to <$to>\r\n"; 
             $header .= "Reply-To: $to\r\n"; 
 
@@ -92,6 +93,7 @@ if (!empty($_POST['button']) || !empty($_POST['button-checkout'])) {
         } else if (!empty($sqlform) && !empty($_POST['button-checkout']) && !empty($mailadmin)) {
             echo "<p>Форма отправлена</p><p>С вами свяжутся через некоторое время наши менеджеры</p><p>Переход на страницу каталог будет через 5 секунд</p>";
             $_SESSION['cart'] = [];
+            $_SESSION['q'] = 0;
             header( 'Refresh: 5; URL=/catalog' );
             exit;
         } else {

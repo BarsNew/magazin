@@ -54,8 +54,8 @@ function app_get_navigation($parent_id = 0, $parent_href = '/', $categories_publ
     return '<ul>' . $html . '</ul>';
 }
 
-function getStore($product_id) {
-    
+function getStore($product_id) 
+{    
     $host = 'magazin';  // Хост, у нас все локально
     $user = 'root';    // Имя созданного вами пользователя
     $pass = ''; // Установленный вами пароль пользователю
@@ -89,7 +89,8 @@ function getStore($product_id) {
     return [];
 }
 
-function unique_multidim_array($array, $key) { 
+function unique_multidim_array($array, $key) 
+{ 
     $temp_array = array(); 
     $i = 0; 
     $key_array = array(); 
@@ -103,3 +104,17 @@ function unique_multidim_array($array, $key) {
     } 
     return $temp_array; 
 } 
+
+
+function counter_products() 
+{
+    $url = explode('?', $_SERVER['REQUEST_URI']);   
+    $result = $url[0];
+    $session_count = ($_SESSION['q']) ?? 0;
+
+    if ($result == '/catalog' || $result == '/catalog/') {  
+        $counter = '<span id="quantity1" class="quantity">в<br /><br />к<br />о<br />р<br />з<br />и<br />н<br />е<br /><br /><span id="quantity">' . $session_count . '</span></span>';
+    }
+
+    return $counter;
+}

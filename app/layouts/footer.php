@@ -26,11 +26,6 @@
 </div>
 
 <p class="copy">&copy; 2022 website by</p>
-<?php 
-$url = explode('?', $_SERVER['REQUEST_URI']);
-$result = $url[0];
-if ($result == '/catalog' || $result == '/catalog/') { ?> 
-<span id='quantity1' class="quantity">в<br /><br />к<br />о<br />р<br />з<br />и<br />н<br />е<br /><br /><span id='quantity'><?php echo ($_SESSION['q'])??0; ?></span></span>
-<?php } ?>
+                                            
 </body>
 </html>

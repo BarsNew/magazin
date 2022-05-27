@@ -2,32 +2,24 @@
 
 require_once '../config.php';
 
-$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-if (!$link) {
-echo 'Не могу соединиться с БД. Код ошибки: ' . mysqli_connect_errno() . ', ошибка: ' . mysqli_connect_error();
-exit;
+try {
+    $link = new PDO('mysql:dbname=' . DB_NAME . ';host=' . DB_HOST . ';', DB_USER, DB_PASSWORD);
+} catch (PDOException $e) {
+    die($e->getMessage());
 }
-
 
 if (isset($_POST["submit"])) {
 
     if (isset($_GET['red_id'])) {
-        $sql = mysqli_query($link, "UPDATE `base` SET `url` = '{$_POST['base']}' WHERE `ID`={$_GET['red_id']}");
+        $link->query("UPDATE `base` SET `url` = '{$_POST['base']}' WHERE `ID`={$_GET['red_id']}");
     } 
-
-    if ($sql) {
-    echo '<p>Успешно!</p>';
-    } else {
-    echo '<p>Произошла ошибка: ' . mysqli_error($link) . '</p>';
-    }
 }
 
 if (isset($_GET['red_id']) || isset($_POST["submit2"])) {
-$sql = mysqli_query($link, "SELECT * FROM `base` WHERE `id`={$_GET['red_id']}");
-$bas = mysqli_fetch_array($sql);
-}
 
+$sql = $link->query("SELECT `url` FROM `base` WHERE `id`={$_GET['red_id']}");
+$bas = $sql->fetch(PDO::FETCH_COLUMN);
+}
 
 if (isset($_POST["submit2"])) {
 
@@ -50,12 +42,11 @@ if (isset($_POST["submit2"])) {
         return [];
     }
 
-    $data_store = getStore0($bas["url"]);
+    $data_store = getStore0($bas);
 
     $data_store = addslashes(serialize($data_store));
 
-    $sql = mysqli_query($link, "UPDATE `base` SET `base` = '{$data_store}'  WHERE `id`= 1 ");
-
+    $link->query("UPDATE `base` SET `base` = '{$data_store}'  WHERE `id`={$_GET['red_id']}");
 }
 
 ?>
@@ -82,7 +73,7 @@ if (isset($_POST["submit2"])) {
     <table class="table-pages">
     <tr>
         <td class='td1'>URL адрес базы товаров:</td>
-        <td class="table-p"><input type="text" name="base" value="<?php echo isset($_GET['red_id']) ? $bas['url'] : ''; ?>"></td>
+        <td class="table-p"><input type="text" name="base" value="<?php echo isset($_GET['red_id']) ? $bas : ''; ?>"></td>
     </tr>
     </table>
     <button class="ab-btn asphalt" type="submit" name="submit" value="OK">Изменить адрес</button>
@@ -95,8 +86,10 @@ if (isset($_POST["submit2"])) {
     <th>Команда</th>
 </tr>
 <?php
-    $sql = mysqli_query($link, 'SELECT * FROM `base`');
-    while ($result = mysqli_fetch_array($sql)) {
+    $sql = $link->prepare('SELECT * FROM `base`');
+    $sql->execute();
+    $res = $sql->fetchAll(PDO::FETCH_ASSOC);
+    foreach($res as $result) {
     echo "<tr class='text-center'><th class='table-n th-color'>URL адрес:</th><td>{$result['url']}</td><th class='table-n th-color'>Команда:</th><td><a class='text-white hover' href='?red_id={$result['id']}'>Изменить</a></td></tr>";
     }
 ?>
