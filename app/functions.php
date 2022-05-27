@@ -56,11 +56,9 @@ function app_get_navigation($parent_id = 0, $parent_href = '/', $categories_publ
 
 function getStore($product_id) 
 {    
-    $host = 'magazin';  // Хост, у нас все локально
-    $user = 'root';    // Имя созданного вами пользователя
-    $pass = ''; // Установленный вами пароль пользователю
-    $db_name = 'mysite';   // Имя базы данных
-    $link = mysqli_connect($host, $user, $pass, $db_name); // Соединяемся с базой
+    require_once './config.php';
+
+    $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     
     // Ругаемся, если соединение установить не удалось
     if (!$link) {
@@ -112,7 +110,9 @@ function counter_products()
     $result = $url[0];
     $session_count = ($_SESSION['q']) ?? 0;
 
-    if ($result == '/catalog' || $result == '/catalog/') {  
+    $pr = preg_match("#/catalog/([\d])+/#i",$result);
+
+    if ($result == '/catalog' || $result == '/catalog/' || (!empty($pr))) {  
         $counter = '<span id="quantity1" class="quantity">в<br /><br />к<br />о<br />р<br />з<br />и<br />н<br />е<br /><br /><span id="quantity">' . $session_count . '</span></span>';
     }
 
