@@ -113,7 +113,7 @@ function counter_products()
     $pr = preg_match("#/catalog/([\d])+/#i",$result);
 
     if ($result == '/catalog' || $result == '/catalog/' || (!empty($pr))) {  
-        $counter = '<span id="quantity1" class="quantity">в<br /><br />к<br />о<br />р<br />з<br />и<br />н<br />е<br /><br /><span id="quantity">' . $session_count . '</span></span>';
+        $counter = '<span id="quantity1" class="quantity">в корзине <span id="quantity">' . $session_count . '</span></span>';
     }
 
     return $counter;
